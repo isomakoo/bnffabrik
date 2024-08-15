@@ -1,0 +1,199 @@
+.tuplam-list{
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    flex-wrap: wrap;
+}
+#root{
+  height: 0;
+}
+.scrollable-section {
+  max-height: calc(100vh - someOffset);
+  overflow-y: auto;
+}
+.tuplam-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tuplam-input {
+  width: 100%;
+  padding-right: 30px; /* Clear button uchun joy qoldirish */
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 44px;
+  color: #999; /* Clear button rangini tanlang */
+  z-index: 1;
+}
+
+
+.product-item{
+    width: 25%;
+    align-items: center;
+}
+.product-image{
+    width: 90%;
+    height: 200px;
+    border-radius: 10px;
+}
+.category-container{
+    display: flex;
+    justify-content: space-between;
+    width: 1140px;
+    margin: 0 auto;
+    padding: 0;
+}
+.contact{
+    width: 1140px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    z-index: -1;
+}
+.tuplamjon{
+  position: relative;
+  width: 1140px;
+  z-index: -1;
+  margin: 0 auto;
+}
+.season-links {
+    text-align: center; 
+  }
+  
+  .season-links h2 {
+    margin-bottom: 20px; 
+  }
+  
+  .season-links button {
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc; 
+    width: 100px;
+    border-radius: 5px; 
+    padding: 10px 20px;
+    margin: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+  }
+  
+  .season-links button.active {
+    background-color: #007bff; 
+    color: #fff; 
+    border-color: #007bff; 
+  }
+  
+  .season-links button:hover {
+    background-color: #e0e0e0; 
+  }
+  .product-nete {
+    display: flex;
+    justify-content: center; /* Gorizontal markazlash */
+    align-items: center; /* Vertikal markazlash */
+    height: 100vh; /* Ekran balandligi bo'yicha markazlash uchun */
+  }
+  
+  .product-net {
+    font-size: 1.5rem;
+    color: #333; 
+    text-align: center;
+  }
+  
+  .tuplam-input {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    width: 450px;
+    font-size: 1rem;
+    color: #888;
+    background-color: #dcdcdc;
+    transition: box-shadow 0.3s ease;
+    margin-left: 0 !important;
+   
+  }
+  .foother-navbar{
+    width: 1140px;
+    margin: 0 auto;
+  }
+  .product-text{
+    width: 500px !important;
+    padding-left: 0 !important;
+    color: #889a97;
+  }
+  @media(max-width: 1100px){
+    .tuplamjon{
+    width: 100%;
+      margin: 0 auto;
+    }
+    .tuplam-input{
+      width: 80%;
+      margin-left: 40px !important;
+    }
+    .contact{
+      width: 100%;
+    }
+    .product-nete{
+      width: 80%;
+    }
+    .season-links{
+      width: 20%;
+    }
+    .category-container{
+      width: 80%;
+    }
+    .tuplam-list{
+      padding-left: 0 !important;
+    }
+    .product-item{
+      width: 24%;
+    }
+    .product-text{
+      width: 100% !important;
+    }
+    .product-image{
+      width: 100%;
+    }
+    .product-text{
+      width: 100%;
+      text-align: left;
+      margin-left: 0;
+    }
+    
+  }
+  @media(max-width: 900px){
+   .tuplam-list{
+    flex-wrap: wrap;
+   }
+   .product-item{
+    width: 29%;
+   }
+  }
+  @media(max-width: 650px){
+    .product-item{
+      width: 48%;
+    }
+  }
+  @media(max-width: 500px){
+  .product-item{
+    width: 100%;
+  }
+  .category-container{
+    width: 66%;
+  }
+  .season-links{
+    width: 33% !important;
+  }
+  .product-net{
+    font-size: 18px;
+  }
+  }
