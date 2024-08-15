@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
+ 
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import productData from "../Product/product";
@@ -212,14 +211,12 @@ function Main() {
                 <div className="container">
                     <div className="product-detail">
                         <div className="image-container">
-                            <Zoom>
-                                <img
+                                 <img
                                     src={product.img}
                                     alt={product.alt}
                                     id="product-img"
                                 />
-                            </Zoom>
-                        </div>
+                         </div>
                         <table className="product-table">
                         <h1 className="product-names">
                                 {product.name}
