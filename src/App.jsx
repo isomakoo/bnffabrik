@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import 'flag-icon-css/css/flag-icons.min.css';
-import 'aos/dist/aos.css'; // AOS CSS faylini import qiling
+import 'aos/dist/aos.css'; 
 import './App.css';
 import Header from './Component/Header/Header';
 import Hero from './Component/Hero/Hero';
@@ -13,7 +13,7 @@ import Bizhaqimizda from './Component/Bizhaqimizda/Bizhaqimizda';
 import Contakt from './Component/Contakt/Contakt';
 import Tuplam from './Component/tuplam/tuplam';
 import { useTranslation } from 'react-i18next';
-import AOS from 'aos'; // AOS kutubxonasini import qiling
+import AOS from 'aos'; 
 
 function App() {
   
@@ -22,9 +22,9 @@ function App() {
   useEffect(() => {
     document.title = t('title');
     AOS.init({
-      duration: 500, // animatsiya davomiyligi
-      offset: 120, // animatsiya boshlanishi uchun masofa
-      once: true, // bir marta faqat bajarish
+      duration: 500, 
+      offset: 120,
+      once: true, 
     });
   }, [t]);
 
