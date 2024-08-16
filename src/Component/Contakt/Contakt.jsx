@@ -8,6 +8,7 @@ import Select from "react-select";
 import uz from "../../assets/uz.svg";
 import ru from "../../assets/ru.svg";
 import en from "../../assets/en.svg";
+import { notification } from 'antd';
 import tel from "../../assets/phone.svg";
 import email from "../../assets/email.svg";
 import laction from "../../assets/location.svg";
@@ -15,6 +16,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useState } from "react";
 import Modal from "../modal/modal";
+import axios from "axios"; // Import axios
 
 const languageOptions = [
   { value: "en", label: "English", icon: en },
@@ -61,6 +63,10 @@ const customStyles = {
 
 function Contakt() {
   const { t, i18n } = useTranslation();
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleChange = (selectedOption) => {
     i18n.changeLanguage(selectedOption.value);
@@ -91,8 +97,6 @@ function Contakt() {
     );
   };
 
-  const [isModalOpen, setModalOpen] = useState(false);
-
   const openModal = () => {
     setModalOpen(true);
   };
@@ -101,6 +105,41 @@ function Contakt() {
     setModalOpen(false);
   };
 
+  const currentLang = i18n.language;
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    const botToken = '7079304090:AAHz0hdemV3kKxzSiksKthyugnQ3oGpBadU'; // Telegram bot tokeningizni o'zgartiring
+    const chatId = '6914657739'; // Telegram chat IDingizni o'zgartiring
+    
+    const messageText = `
+      Email: ${email}
+      Phone: ${phone}
+      Message: ${message}
+    `;
+    
+    try {
+      await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        chat_id: chatId,
+        text: messageText,
+        parse_mode: 'HTML'
+      });
+      notification.success({
+        message: t('Xabaringiz muvafaqatliy junatildi')
+      });
+      // Clear the form fields after successful submission
+      setEmail('');
+      setPhone('');
+      setMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      notification.error({
+        message: t('Xabaringiz muvafaqatliy junatildi')
+      });
+    }
+  };
+  
   return (
     <>
       <div className="hero">
@@ -134,7 +173,7 @@ function Contakt() {
               </li>
             </ul>
             <Select
-              defaultValue={languageOptions[0]}
+              defaultValue={languageOptions.find(option => option.value === currentLang)}
               options={languageOptions}
               onChange={handleChange}
               components={{
@@ -145,13 +184,14 @@ function Contakt() {
               styles={customStyles}
               id="hero-select"
             />
+
             <svg
               onClick={openModal}
               stroke="currentColor"
               fill="none"
               strokeWidth="0"
               viewBox="0 0 24 24"
-              className="open-menu" 
+              className="open-menu"
               height="1em"
               width="1em"
               xmlns="http://www.w3.org/2000/svg"
@@ -174,18 +214,22 @@ function Contakt() {
           <div className="contact-list">
             <nav className="contact-item">
               <h3 className="contact-title">{t('contact.title')}</h3>
-              <form className="contact-input-container">
+              <form className="contact-input-container" onSubmit={handleSubmit}>
                 <input
                   type="email"
                   required
                   className="contacts-input"
                   placeholder={t('contact.email_placeholder')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <br />
                 <input
                   type="tel"
                   className="contacts-input"
                   placeholder={t('contact.phone_placeholder')}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
                 <br />
                 <input
@@ -193,9 +237,11 @@ function Contakt() {
                   required
                   className="contacts-input-text"
                   placeholder={t('contact.message_placeholder')}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
                 <br />
-                <button className="contact-btn">{t('contact.submit_button')}</button>
+                <button className="contact-btn" type="submit">{t('contact.submit_button')}</button>
               </form>
             </nav>
             <iframe
@@ -284,11 +330,11 @@ function Contakt() {
               <form className="newsletter-form">
                 <input
                   type="email"
-                  placeholder="Elektron pochtangizni kiriting"
+                  placeholder={t('email_placeholder')}
                   className="email-input"
                 />
                 <button type="submit" className="subscribe-button">
-                  Obuna Bo‘ling
+                 {t("substarkt-btn")}
                 </button>
               </form>
             </li>

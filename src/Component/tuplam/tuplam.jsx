@@ -58,7 +58,7 @@ const customStyles = {
 
 function Tuplam() {
   const { t, i18n } = useTranslation();
-  
+
   const [selectedSeason, setSelectedSeason] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
@@ -82,7 +82,11 @@ function Tuplam() {
 
   const customSingleValue = ({ data }) => (
     <div className="custom-single-value">
-      <img src={data.icon} alt={data.label} style={{ width: 20, marginRight: 10 }} />
+      <img
+        src={data.icon}
+        alt={data.label}
+        style={{ width: 20, marginRight: 10 }}
+      />
       {data.label}
     </div>
   );
@@ -91,7 +95,11 @@ function Tuplam() {
     const { innerRef, innerProps, data } = props;
     return (
       <div ref={innerRef} {...innerProps} className="custom-option">
-        <img src={data.icon} alt={data.label} style={{ width: 20, marginRight: 10 }} />
+        <img
+          src={data.icon}
+          alt={data.label}
+          style={{ width: 20, marginRight: 10 }}
+        />
         {data.label}
       </div>
     );
@@ -111,25 +119,26 @@ function Tuplam() {
   };
 
   const filteredProducts = useMemo(() => {
-    const products = selectedSeason === "All"
-      ? Object.keys(extendedProductData).flatMap((season) =>
-          extendedProductData[season].map((product) => ({
+    const products =
+      selectedSeason === "All"
+        ? Object.keys(extendedProductData).flatMap((season) =>
+            extendedProductData[season].map((product) => ({
+              ...product,
+              season,
+            }))
+          )
+        : (extendedProductData[selectedSeason] || []).map((product) => ({
             ...product,
-            season,
-          }))
-        )
-      : (extendedProductData[selectedSeason] || []).map((product) => ({
-          ...product,
-          season: selectedSeason,
-        }));
-
+            season: selectedSeason,
+          }));
+  
     return products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery)
+      product.name[i18n.language].toLowerCase().includes(searchQuery)
     );
-  }, [selectedSeason, searchQuery]);
-
+  }, [selectedSeason, searchQuery, i18n.language]);
+  
   const clearSearch = () => {
-    setSearchQuery('');
+    setSearchQuery("");
   };
 
   const openModal = () => {
@@ -139,7 +148,7 @@ function Tuplam() {
   const closeModal = () => {
     setModalOpen(false);
   };
-
+  const currentLang = i18n.language;
   return (
     <>
       <div className="hero">
@@ -173,7 +182,9 @@ function Tuplam() {
               </li>
             </ul>
             <Select
-              defaultValue={languageOptions[0]}
+              defaultValue={languageOptions.find(
+                (option) => option.value === currentLang
+              )}
               options={languageOptions}
               onChange={handleChange}
               components={{
@@ -184,6 +195,7 @@ function Tuplam() {
               styles={customStyles}
               id="hero-select"
             />
+
             <svg
               onClick={openModal}
               className="open-menu"
@@ -254,16 +266,19 @@ function Tuplam() {
             {filteredProducts.length > 0 ? (
               <ul className="tuplam-list">
                 {filteredProducts.map((product) => (
-                  <li key={`product-${product.id}-${product.season}`} className="product-item">
-                    <Link to={`/product/${product.season}/${product.id}`}>
-                      <img
-                        src={product.img}
-                        alt={product.alt}
-                        className="product-image"
-                      />
-                      <p className="product-text">{product.name}</p>
-                    </Link>
-                  </li>
+                 <li
+                 key={`product-${product.id}-${product.season}`}
+                 className="product-item"
+               >
+                 <Link to={`/product/${product.season}/${product.id}`}>
+                   <img
+                     src={product.img}
+                     alt={product.alt}
+                     className="product-image"
+                   />
+                   <p className="product-text">{product.name[i18n.language]}</p>
+                 </Link>
+               </li>               
                 ))}
               </ul>
             ) : (
@@ -273,42 +288,54 @@ function Tuplam() {
             )}
           </div>
         </div>
-        <ul className="foother-navbar">
-          {/* Footer items */}
-        </ul>
+        <ul className="foother-navbar">{/* Footer items */}</ul>
         <ul className="foother-navbar">
           <li className="foother-nav-item" data-aos="fade-up">
             <img src={logo} alt="Logo" className="foother-logo" />
-            <p className="foother-nav-item-text">
-              {t('about')}
-            </p>
+            <p className="foother-nav-item-text">{t("about")}</p>
           </li>
           <li className="foother-nav-item" data-aos="fade-up">
-            <h4 className="foother-nav-item-title">{t('menu')}</h4>
-            <Link to="/" className='foother-linkes'>{t('home')}</Link> <br />
-            <Link to="/about-us" className='foother-linkes'>{t('aboutUs')} </Link> <br />
-            <Link to="/shop" className='foother-linkes'>{t('collection')}</Link> <br />
-            <Link to="/contact-us" className='foother-linkes'>{t('contact')}</Link>
+            <h4 className="foother-nav-item-title">{t("menu")}</h4>
+            <Link to="/" className="foother-linkes">
+              {t("home")}
+            </Link>{" "}
+            <br />
+            <Link to="/about-us" className="foother-linkes">
+              {t("aboutUs")}{" "}
+            </Link>{" "}
+            <br />
+            <Link to="/shop" className="foother-linkes">
+              {t("collection")}
+            </Link>{" "}
+            <br />
+            <Link to="/contact-us" className="foother-linkes">
+              {t("contacts")}
+            </Link>
           </li>
           <li className="foother-nav-item" data-aos="fade-up">
-            <h4 className="foother-nav-item-title">{t('contacts')}</h4>
-            <p className="foother-item-nav-text">{t('address')}</p>
-            <p className="foother-item-nav-text">{t('email1')}</p>
-            <p className="foother-item-nav-text">{t('social1')}</p>
-            <p className="foother-item-nav-text">{t('email2')}</p>
-            <a href={`tel:${t('phone1')}`} className="foother-nav-link">{t('phone1')}</a> <br />
-            <a href={`tel:${t('phone2')}`} className="foother-nav-link">{t('phone2')}</a>
+            <h4 className="foother-nav-item-title">{t("contacts")}</h4>
+            <p className="foother-item-nav-text">{t("address")}</p>
+            <p className="foother-item-nav-text">{t("email1")}</p>
+            <p className="foother-item-nav-text">{t("social1")}</p>
+            <p className="foother-item-nav-text">{t("email2")}</p>
+            <a href={`tel:${t("phone1")}`} className="foother-nav-link">
+              {t("phone1")}
+            </a>{" "}
+            <br />
+            <a href={`tel:${t("phone2")}`} className="foother-nav-link">
+              {t("phone2")}
+            </a>
           </li>
           <li className="foother-nav-item" data-aos="fade-up">
-            <h4 className="foother-nav-item-title">{t('subscribe')}</h4>
+            <h4 className="foother-nav-item-title">{t("subscribe")}</h4>
             <form className="newsletter-form">
               <input
                 type="email"
-                placeholder="Elektron pochtangizni kiriting"
+                placeholder={t('email_placeholder')}
                 className="email-input"
               />
               <button type="submit" className="subscribe-button">
-                Obuna Bo‘ling
+               {t("substarkt-btn")}
               </button>
             </form>
           </li>

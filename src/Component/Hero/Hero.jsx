@@ -66,7 +66,7 @@ function Hero() {
   const handleChange = (selectedOption) => {
     i18n.changeLanguage(selectedOption.value);
   };
-
+  const currentLang = i18n.language; // Get the current language from i18n
   const customSingleValue = ({ data }) => (
     <div className="custom-single-value">
       <img
@@ -142,17 +142,18 @@ function Hero() {
             </li>
           </ul>
           <Select
-            defaultValue={languageOptions[0]}
-            options={languageOptions}
-            onChange={handleChange}
-            components={{
-              SingleValue: customSingleValue,
-              Option: customOption,
-            }}
-            isSearchable={false}
-            styles={customStyles}
-            id="hero-select"
-          />
+  defaultValue={languageOptions.find(option => option.value === currentLang)}
+  options={languageOptions}
+  onChange={handleChange}
+  components={{
+    SingleValue: customSingleValue,
+    Option: customOption,
+  }}
+  isSearchable={false}
+  styles={customStyles}
+  id="hero-select"
+/>
+
           <svg
             onClick={openModal}
             stroke="currentColor"

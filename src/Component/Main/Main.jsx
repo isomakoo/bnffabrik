@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
- 
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import productData from "../Product/product";
@@ -15,7 +14,6 @@ import 'aos/dist/aos.css';
 import './Main.css';
 import Modal from "../modal/modal";
 
-// Select uchun custom componentlar
 const customSingleValue = ({ data }) => (
     <div className="custom-single-value">
         <img
@@ -119,6 +117,11 @@ function Main() {
         }
     }, [id, season]);
 
+    useEffect(() => {
+        // Ensure that the language change is reflected in the UI
+        i18n.changeLanguage(i18n.language);
+    }, [i18n.language]);
+
     if (!product) {
         return <p>{t("product_not_found")}</p>;
     }
@@ -134,6 +137,8 @@ function Main() {
     const closeModal = () => {
         setModalOpen(false);
     };
+
+    const currentLang = i18n.language;
 
     return (
         <>
@@ -168,7 +173,7 @@ function Main() {
                             </li>
                         </ul>
                         <Select
-                            defaultValue={languageOptions[0]}
+                            defaultValue={languageOptions.find(option => option.value === currentLang)}
                             options={languageOptions}
                             onChange={handleChange}
                             components={{
@@ -211,20 +216,20 @@ function Main() {
                 <div className="container">
                     <div className="product-detail">
                         <div className="image-container">
-                                 <img
-                                    src={product.img}
-                                    alt={product.alt}
-                                    id="product-img"
-                                />
-                         </div>
+                            <img
+                                src={product.img}
+                                alt={product.alt ? product.alt[currentLang] : 'Product Image'}
+                                id="product-img"
+                            />
+                        </div>
                         <table className="product-table">
-                        <h1 className="product-names">
-                                {product.name}
+                            <h1 className="product-names">
+                                {product.name ? product.name[currentLang] : ''}
                             </h1>
                             <tbody id="product-tbody">
                                 <tr>
                                     <th id="product-title">{t("material")}</th>
-                                    <td>{product.material}</td>
+                                    <td>{product.material ? product.material[currentLang] : ''}</td>
                                 </tr>
                                 <tr>
                                     <th id="product-title">{t("size")}</th>
@@ -232,30 +237,30 @@ function Main() {
                                 </tr>
                                 <tr>
                                     <th id="product-title">{t("category")}</th>
-                                    <td>{product.category}</td>
+                                    <td>{product.category ? product.category[currentLang] : ''}</td>
                                 </tr>
                                 <tr>
                                     <th id="product-title">{t("manufacturer")}</th>
-                                    <td>{product.manufacturer}</td>
+                                    <td>{product.manufacturer ? product.manufacturer[currentLang] : ''}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <p className="product-text" data-aos="fade-up" data-aos-duration="1000">
-                         <span className="spane-title">{product.name} Choyshablar tuplami </span> <br />
-                        {product.description}
+                        <span className="spane-title">{product.name ? product.name[currentLang] : ''} {t("para12")} </span> <br />
+                        {product.description ? product.description[currentLang] : ''}
                     </p>
-                    <h3 className="main-title">Shunga uxshagan Mahsulotlar</h3>
+                    <h3 className="main-title">{t("similar_products")}</h3>
                     <div className="product-grid">
-                        {similarProducts.slice(0, 4).map((item) => (
+                        {similarProducts.length > 0 && similarProducts.map((item) => (
                             <div key={item.id} className="product-card">
                                 <Link to={`/product/${season}/${item.id}`}>
                                     <img
                                         src={item.img}
-                                        alt={item.alt}
+                                        alt={item.alt ? item.alt[currentLang] : 'Similar Product Image'}
                                         id="products-image"
                                     />
-                                    <p className="product-text">{item.name}</p>
+                                    <p className="product-text">{item.name[currentLang]}</p>
                                 </Link>
                             </div>
                         ))}
@@ -271,7 +276,7 @@ function Main() {
                     <li className="foother-nav-item" data-aos="fade-up">
                         <h4 className="foother-nav-item-title">{t('menu')}</h4>
                         <Link to="/" className='foother-linkes'>{t('home')}</Link> <br />
-                        <Link to="/about-us" className='foother-linkes'>{t('aboutUs')} </Link> <br />
+                        <Link to="/about-us" className='foother-linkes'>{t('aboutUs')}</Link> <br />
                         <Link to="/shop" className='foother-linkes'>{t('collection')}</Link> <br />
                         <Link to="/contact-us" className='foother-linkes'>{t('contacts')}</Link>
                     </li>
@@ -289,11 +294,11 @@ function Main() {
                         <form className="newsletter-form">
                             <input
                                 type="email"
-                                placeholder="Elektron pochtangizni kiriting"
+                                placeholder={t('email_placeholder')}// Ensure this key is defined in your translations
                                 className="email-input"
                             />
                             <button type="submit" className="subscribe-button">
-                                Obuna Bo‘ling
+                                {t('substarkt-btn')} 
                             </button>
                         </form>
                     </li>

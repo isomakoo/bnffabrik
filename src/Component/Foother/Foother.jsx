@@ -8,6 +8,7 @@ import Logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { subtract } from 'lodash';
 
 function Foother() {
   const { t } = useTranslation();
@@ -30,19 +31,19 @@ function Foother() {
           <li className="foother-item" data-aos="fade-up">
             <img src={Soat} alt="" className="foother-item-img" />
             <p className="foother-item-text">{t('date')}</p>
-            <h3 className="foother-item-title">{t('title')}</h3>
+            <h3 className="foother-item-title">{t('titles')}</h3>
             <p className="foother-list-text">{t('description1')}</p>
           </li>
           <li className="foother-item" data-aos="fade-up">
             <img src={Notbook} alt="" className="foother-item-img" />
             <p className="foother-item-text">{t('date')}</p>
-            <h3 className="foother-item-title">{t('title')}</h3>
+            <h3 className="foother-item-title">{t('titles')}</h3>
             <p className="foother-list-text">{t('description2')}</p>
           </li>
           <li className="foother-item" data-aos="fade-up">
             <img src={Apple} alt="" className="foother-item-img" />
             <p className="foother-item-text">{t('date')}</p>
-            <h3 className="foother-item-title">{t('title')}</h3>
+            <h3 className="foother-item-title">{t('titles')}</h3>
             <p className="foother-list-text">{t('description3')}</p>
           </li>
         </ul>
@@ -58,7 +59,7 @@ function Foother() {
             <Link to="/" className='foother-linkes'>{t('home')}</Link> <br />
             <Link to="/about-us" className='foother-linkes'>{t('aboutUs')} </Link> <br />
             <Link to="/shop" className='foother-linkes'>{t('collection')}</Link> <br />
-            <Link to="/contact-us" className='foother-linkes'>{t('contact')}</Link>
+            <Link to="/contact-us" className='foother-linkes'>{t('contacts')}</Link>
           </li>
           <li className="foother-nav-item" data-aos="fade-up">
             <h4 className="foother-nav-item-title">{t('contacts')}</h4>
@@ -74,11 +75,11 @@ function Foother() {
             <form className="newsletter-form">
               <input
                 type="email"
-                placeholder="Elektron pochtangizni kiriting"
+                placeholder={t('email_placeholder')}
                 className="email-input"
               />
               <button type="submit" className="subscribe-button">
-                Obuna Bo‘ling
+               {t("substarkt-btn")}
               </button>
             </form>
           </li>
